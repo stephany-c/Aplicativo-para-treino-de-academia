@@ -1,0 +1,30 @@
+# ========== IDEs e Editores ==========
+.idea/
+.vscode/
+*.swp
+*.swo
+*.suo
+*.user
+
+# ========== Backend (Spring Boot / Java) ==========
+target/
+*.log
+logs/
+*.jar
+*.war
+.mvn/wrapper/maven-wrapper.jar
+compile_errors.txt
+compile_errors_utf8.txt
+
+# ========== Frontend (Node / Angular) ==========
+node_modules/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+.angular/
+coverage/
+
+# ========== OS e Misc ==========
+.DS_Store
+Thumbs.db
