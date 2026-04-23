@@ -18,7 +18,7 @@ public class Exercicio {
     private int series;
     private int carga;
 
-    @ManyToOne
+    @ManyToOne 
     @JoinColumn(name = "treino_id")
     private Treino treino;
 

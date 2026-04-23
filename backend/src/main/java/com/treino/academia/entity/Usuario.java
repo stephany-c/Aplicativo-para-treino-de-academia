@@ -14,7 +14,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // define que o id será gerado automaticamente pelo banco
     private Long id;
     private String nome;
-    @Column(unique = true) // diz ao banco qu enão pode ter valor repetido
+    @Column(unique = true) // diz ao banco que não pode ter valor repetido
     private String email;
     private String senha;
 
