@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-gray-50 flex flex-col font-sans">
+  <!-- Header Navbar -->
+  <header class="bg-indigo-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <a routerLink="/" class="text-2xl font-bold tracking-tight">AcademiaApp</a>
+        </div>
+        <nav class="flex space-x-4">
+          <a routerLink="/login" class="hover:bg-indigo-500 px-3 py-2 rounded-md font-medium transition-colors">Login</a>
+          <a routerLink="/cadastro" class="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-2 rounded-md font-medium transition-colors">Cadastrar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-gray-400 text-sm">&copy; 2026 AcademiaApp. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+</div>
