@@ -16,9 +16,9 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void cadastrar(Usuario usuario) {
+    public Usuario cadastrar(Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     public Usuario login(String email, String senha) {

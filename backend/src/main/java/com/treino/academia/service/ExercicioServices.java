@@ -37,6 +37,10 @@ public class ExercicioServices {
         return exercicioRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
+    public List<ExercicioDto> listarPorTreino(Long treinoId) {
+        return exercicioRepository.findByTreinoId(treinoId).stream().map(this::toDto).collect(Collectors.toList());
+    }
+
     public ExercicioDto atualizar(Long id, ExercicioDto dto) {
         Exercicio exercicioExistente = exercicioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Exercicio não encontrado"));

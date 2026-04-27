@@ -36,6 +36,10 @@ public class TreinoServices {
         return treinoRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
+    public List<TreinoDto> listarPorUsuario(Long usuarioId) {
+        return treinoRepository.findByUsuarioId(usuarioId).stream().map(this::toDto).collect(Collectors.toList());
+    }
+
     public TreinoDto atualizar(Long id, TreinoDto dto) {
         Treino treinoExistente = treinoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Treino não encontrado"));

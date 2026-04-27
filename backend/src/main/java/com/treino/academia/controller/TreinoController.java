@@ -31,6 +31,11 @@ public class TreinoController {
         return ResponseEntity.ok(treinoServices.listar());
     }
 
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<TreinoDto>> listarPorUsuario(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(treinoServices.listarPorUsuario(usuarioId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<TreinoDto> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(treinoServices.buscarPorId(id));

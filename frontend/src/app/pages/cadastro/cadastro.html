@@ -6,9 +6,11 @@
     </div>
 
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="space-y-6">
-      <div *ngIf="errorMessage" class="bg-red-50 text-red-600 p-3 rounded-md text-sm">
-        {{ errorMessage }}
-      </div>
+      @if (errorMessage) {
+        <div class="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+          {{ errorMessage }}
+        </div>
+      }
 
       <div>
         <label class="block text-sm font-medium text-gray-700">Nome completo</label>

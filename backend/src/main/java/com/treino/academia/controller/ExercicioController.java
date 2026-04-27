@@ -26,6 +26,11 @@ public class ExercicioController {
         return ResponseEntity.ok(exercicioServices.listar());
     }
 
+    @GetMapping("/treino/{treinoId}")
+    public ResponseEntity<List<ExercicioDto>> listarPorTreino(@PathVariable Long treinoId) {
+        return ResponseEntity.ok(exercicioServices.listarPorTreino(treinoId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ExercicioDto> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(exercicioServices.buscarPorId(id));

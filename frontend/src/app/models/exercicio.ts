@@ -3,5 +3,6 @@ export interface Exercicio {
   nome: string;
   series: number;
   repeticoes: number;
+  carga?: number;
   treinoId?: number;
 }

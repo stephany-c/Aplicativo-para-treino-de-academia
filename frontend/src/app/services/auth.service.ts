@@ -19,6 +19,7 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('usuarioId', String(response.usuarioId));
           this.isLoggedIn.set(true);
         }
       })
@@ -31,11 +32,17 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('usuarioId');
     this.isLoggedIn.set(false);
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUsuarioId(): number | null {
+    const id = localStorage.getItem('usuarioId');
+    return id ? Number(id) : null;
   }
 
   private hasToken(): boolean {

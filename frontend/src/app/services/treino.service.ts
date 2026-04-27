@@ -15,6 +15,10 @@ export class TreinoService {
     return this.http.get<Treino[]>(this.apiUrl);
   }
 
+  listarPorUsuario(usuarioId: number): Observable<Treino[]> {
+    return this.http.get<Treino[]>(`${this.apiUrl}/usuario/${usuarioId}`);
+  }
+
   buscarPorId(id: number): Observable<Treino> {
     return this.http.get<Treino>(`${this.apiUrl}/${id}`);
   }

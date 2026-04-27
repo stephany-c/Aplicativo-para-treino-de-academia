@@ -7,7 +7,7 @@ import { Exercicio } from '../models/exercicio';
   providedIn: 'root'
 })
 export class ExercicioService {
-  private apiUrl = 'http://localhost:8080/exercicio';
+  private apiUrl = 'http://localhost:8080/exercicios';
 
   constructor(private http: HttpClient) { }
 

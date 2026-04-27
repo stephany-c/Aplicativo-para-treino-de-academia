@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html'
 })
 export class Login {
@@ -31,6 +30,7 @@ export class Login {
           this.router.navigate(['/treinos']);
         },
         error: (err) => {
+          console.error('Erro no login:', err);
           this.errorMessage = 'Email ou senha inválidos.';
         }
       });

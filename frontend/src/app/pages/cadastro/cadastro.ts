@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './cadastro.html'
 })
 export class Cadastro {
@@ -32,6 +31,7 @@ export class Cadastro {
           this.router.navigate(['/login']);
         },
         error: (err) => {
+          console.error('Erro no cadastro:', err);
           this.errorMessage = 'Erro ao realizar cadastro. Tente outro email.';
         }
       });

@@ -2,6 +2,7 @@ package com.treino.academia.controller;
 
 import com.treino.academia.dto.LoginDto;
 import com.treino.academia.dto.LoginResponseDto;
+import com.treino.academia.dto.RegistroDto;
 import com.treino.academia.dto.UsuarioDto;
 import com.treino.academia.entity.Usuario;
 import com.treino.academia.service.AuthService;
@@ -22,9 +23,14 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid Usuario usuario) {
-        authService.cadastrar(usuario);
-        return ResponseEntity.ok(new UsuarioDto(usuario.getId(), usuario.getNome(), usuario.getEmail()));
+    public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid RegistroDto registroDto) {
+        // Monta a entidade a partir do DTO (nunca recebe a entidade diretamente da API)
+        Usuario usuario = new Usuario();
+        usuario.setNome(registroDto.getNome());
+        usuario.setEmail(registroDto.getEmail());
+        usuario.setSenha(registroDto.getSenha());
+        Usuario usuarioSalvo = authService.cadastrar(usuario);
+        return ResponseEntity.ok(new UsuarioDto(usuarioSalvo.getId(), usuarioSalvo.getNome(), usuarioSalvo.getEmail()));
     }
 
     @PostMapping("/login")
