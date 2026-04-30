@@ -36,11 +36,13 @@ public class SecurityFilter extends OncePerRequestFilter {
                 Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
                 if (usuarioOpt.isPresent()) {
                     Usuario usuario = usuarioOpt.get();
-                    
-                    // Simple programmatic authentication
                     var authentication = new UsernamePasswordAuthenticationToken(usuario, null, Collections.emptyList());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    System.out.println("SecurityFilter: Usuário não encontrado para o email: " + email);
                 }
+            } else {
+                System.out.println("SecurityFilter: Token inválido ou expirado.");
             }
         }
         filterChain.doFilter(request, response);
@@ -48,7 +50,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return null;
-        return authHeader.replace("Bearer ", "");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        return authHeader.substring(7).trim();
     }
 }

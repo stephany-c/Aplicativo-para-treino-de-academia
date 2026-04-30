@@ -1,27 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TreinoService } from '../../services/treino.service';
 import { AuthService } from '../../services/auth.service';
 import { Treino } from '../../models/treino';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-treinos',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './treinos.html'
 })
-export class Treinos implements OnInit {
+export class Treinos implements OnInit, OnDestroy {
   treinos: Treino[] = [];
   treinoForm: FormGroup;
   mostrandoForm = false;
-  // Guarda o treino que está sendo editado (null = modo criação)
   treinoEditando: Treino | null = null;
+  private sub = new Subscription();
 
   constructor(
     private treinoService: TreinoService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.treinoForm = this.fb.group({
       nome: ['', Validators.required],
@@ -30,29 +33,44 @@ export class Treinos implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarTreinos();
+    // Escuta o fluxo de ID do usuário para carregar dados automaticamente após o login
+    this.sub.add(
+      this.authService.usuarioId$.subscribe(id => {
+        if (id) {
+          this.carregarTreinos(id);
+        }
+      })
+    );
   }
 
-  carregarTreinos() {
-    const usuarioId = this.authService.getUsuarioId();
-    if (usuarioId) {
-      this.treinoService.listarPorUsuario(usuarioId).subscribe({
-        next: (data) => this.treinos = data,
-        error: (err) => console.error('Erro ao carregar treinos', err)
-      });
-    }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  carregarTreinos(usuarioId: number) {
+    this.treinoService.listarPorUsuario(usuarioId).subscribe({
+      next: (data) => {
+        this.treinos = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao carregar treinos:', err);
+        if (err.status === 403 || err.status === 401) {
+          alert('Sessão expirada ou erro de permissão. Por favor, faça login novamente.');
+        }
+      }
+    });
   }
 
   toggleForm() {
     this.mostrandoForm = !this.mostrandoForm;
     if (!this.mostrandoForm) {
-      // Ao fechar o form, limpa o modo de edição
       this.treinoForm.reset();
       this.treinoEditando = null;
     }
+    this.cdr.detectChanges();
   }
 
-  // Abre o formulário preenchido com os dados do treino para edição
   iniciarEdicao(treino: Treino) {
     this.treinoEditando = treino;
     this.treinoForm.setValue({
@@ -60,6 +78,7 @@ export class Treinos implements OnInit {
       descricao: treino.descricao
     });
     this.mostrandoForm = true;
+    this.cdr.detectChanges();
   }
 
   salvarTreino() {
@@ -67,30 +86,29 @@ export class Treinos implements OnInit {
       const usuarioId = this.authService.getUsuarioId();
 
       if (this.treinoEditando && this.treinoEditando.id) {
-        // MODO EDIÇÃO: chama PUT /treino/:id
         const treinoAtualizado: Treino = {
           ...this.treinoForm.value,
-          usuarioId: usuarioId
+          usuarioId: usuarioId!
         };
         this.treinoService.atualizar(this.treinoEditando.id, treinoAtualizado).subscribe({
           next: (treino) => {
-            // Substitui o treino antigo na lista pelo atualizado
             const idx = this.treinos.findIndex(t => t.id === treino.id);
             if (idx !== -1) this.treinos[idx] = treino;
             this.toggleForm();
+            this.cdr.detectChanges();
           },
           error: (err) => console.error('Erro ao atualizar treino', err)
         });
       } else {
-        // MODO CRIAÇÃO: chama POST /treino
         const treino: Treino = {
           ...this.treinoForm.value,
-          usuarioId: usuarioId
+          usuarioId: usuarioId!
         };
         this.treinoService.criar(treino).subscribe({
           next: (novoTreino) => {
-            this.treinos.push(novoTreino);
+            this.treinos.unshift(novoTreino);
             this.toggleForm();
+            this.cdr.detectChanges();
           },
           error: (err) => console.error('Erro ao criar treino', err)
         });
@@ -103,6 +121,7 @@ export class Treinos implements OnInit {
       this.treinoService.excluir(id).subscribe({
         next: () => {
           this.treinos = this.treinos.filter(t => t.id !== id);
+          this.cdr.detectChanges();
         },
         error: (err) => console.error('Erro ao excluir treino', err)
       });

@@ -19,6 +19,10 @@ export class ExercicioService {
     return this.http.post<Exercicio>(this.apiUrl, exercicio);
   }
 
+  atualizar(id: number, exercicio: Exercicio): Observable<Exercicio> {
+    return this.http.put<Exercicio>(`${this.apiUrl}/${id}`, exercicio);
+  }
+
   excluir(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
