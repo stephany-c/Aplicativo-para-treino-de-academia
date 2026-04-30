@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 export class Login {
   loginForm: FormGroup;
   errorMessage: string = '';
+  showSenha = false;
 
   constructor(
     private fb: FormBuilder,
