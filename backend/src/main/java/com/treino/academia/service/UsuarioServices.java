@@ -1,11 +1,8 @@
 package com.treino.academia.service;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.treino.academia.dto.UsuarioDto;
 import com.treino.academia.entity.Usuario;
 import com.treino.academia.repository.UsuarioRepository;

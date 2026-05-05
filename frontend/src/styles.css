@@ -14,7 +14,7 @@ textarea:-webkit-autofill:focus {
 
 /* Melhorar a cor do placeholder para combinar com o tema dark *//* Fundo para as telas de autenticação */
 .bg-auth {
-  background-image: linear-gradient(rgba(11, 15, 26, 0.8), rgba(11, 15, 26, 0.8)), url('/assets/bg-gym.png');
+  background-image: linear-gradient(rgba(11, 15, 26, 0.6), rgba(11, 15, 26, 0.6)), url('/assets/bg-gym.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

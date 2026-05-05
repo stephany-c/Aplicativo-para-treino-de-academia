@@ -1,5 +1,4 @@
 package com.treino.academia.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,9 +6,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
 public class Exercicio {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +16,6 @@ public class Exercicio {
     private int repeticoes;
     private int series;
     private int carga;
-
     @ManyToOne 
     @JoinColumn(name = "treino_id")
     private Treino treino;

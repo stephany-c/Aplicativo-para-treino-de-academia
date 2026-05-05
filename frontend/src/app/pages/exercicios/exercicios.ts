@@ -26,6 +26,7 @@ export class Exercicios implements OnInit, OnDestroy {
   tempoSegundos = 0;
   intervaloTimer: any;
   exerciciosConcluidos = new Set<number>();
+  progressoSeries: { [key: number]: boolean[] } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -160,6 +161,15 @@ export class Exercicios implements OnInit, OnDestroy {
     this.treinoAtivo = true;
     this.tempoSegundos = 0;
     this.exerciciosConcluidos.clear();
+    
+    // Inicializa o progresso de cada exercício
+    this.progressoSeries = {};
+    this.exercicios.forEach(ex => {
+      if (ex.id) {
+        this.progressoSeries[ex.id] = new Array(ex.series).fill(false);
+      }
+    });
+
     this.iniciarTimer();
     this.cdr.detectChanges();
   }
@@ -176,8 +186,35 @@ export class Exercicios implements OnInit, OnDestroy {
   alternarConclusao(id: number) {
     if (this.exerciciosConcluidos.has(id)) {
       this.exerciciosConcluidos.delete(id);
+      // Ao desmarcar o exercício, opcionalmente desmarcamos todas as séries
+      if (this.progressoSeries[id]) {
+        this.progressoSeries[id] = this.progressoSeries[id].map(() => false);
+      }
     } else {
-      this.exerciciosConcluidos.add(id);
+      this.concluirExercicioTodo(id);
+    }
+    this.cdr.detectChanges();
+  }
+
+  alternarSerie(exercicioId: number, index: number) {
+    if (this.progressoSeries[exercicioId]) {
+      this.progressoSeries[exercicioId][index] = !this.progressoSeries[exercicioId][index];
+      
+      // Verifica se todas as séries foram concluídas
+      const todasConcluidas = this.progressoSeries[exercicioId].every(s => s);
+      if (todasConcluidas) {
+        this.exerciciosConcluidos.add(exercicioId);
+      } else {
+        this.exerciciosConcluidos.delete(exercicioId);
+      }
+      this.cdr.detectChanges();
+    }
+  }
+
+  concluirExercicioTodo(exercicioId: number) {
+    this.exerciciosConcluidos.add(exercicioId);
+    if (this.progressoSeries[exercicioId]) {
+      this.progressoSeries[exercicioId] = this.progressoSeries[exercicioId].map(() => true);
     }
     this.cdr.detectChanges();
   }
