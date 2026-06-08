@@ -1,49 +1,75 @@
 <div class="min-h-screen bg-[#0B0F1A] flex flex-col font-sans text-white">
+
   <!-- Header Navbar -->
-  <header class="bg-[#1c2333] text-white border-b border-slate-700">
+  <header class="bg-[#1c2333]/90 backdrop-blur-md text-white border-b border-slate-700/60 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center py-4 sm:h-20 gap-4 sm:gap-0">
-        <div class="flex items-center">
-          <div class="bg-sky-500 p-1.5 sm:p-2 rounded-xl mr-3 shadow-lg shadow-sky-500/20">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="flex justify-between items-center h-16 sm:h-18">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5">
+          <div class="bg-sky-500 p-1.5 rounded-xl shadow-lg shadow-sky-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <span class="text-xl sm:text-2xl font-black tracking-tighter text-white uppercase italic">Gym<span class="text-sky-500">Flow</span></span>
+          <span class="text-xl sm:text-2xl font-black tracking-tighter text-white uppercase italic">
+            Gym<span class="text-sky-400">Flow</span>
+          </span>
         </div>
-        
+
         <!-- Menu deslogado -->
-        <nav *ngIf="!authService.isLoggedIn()" class="flex items-center space-x-2 sm:space-x-4">
-          <a routerLink="/login" class="hover:text-sky-400 px-2 sm:px-3 py-2 rounded-md font-bold transition-colors uppercase text-[10px] sm:text-sm tracking-widest">Login</a>
-          <a routerLink="/cadastro" class="bg-sky-500 text-white hover:bg-sky-600 px-3 sm:px-5 py-2 rounded-xl font-bold transition-all shadow-lg shadow-sky-500/20 uppercase text-[10px] sm:text-sm tracking-widest">Cadastrar</a>
+        <nav *ngIf="!authService.isLoggedIn()" class="flex items-center gap-2 sm:gap-3">
+          <a routerLink="/login"
+            class="text-slate-400 hover:text-white px-3 sm:px-4 py-2 rounded-xl font-bold transition-colors text-xs sm:text-sm uppercase tracking-widest hover:bg-slate-800">
+            Login
+          </a>
+          <a routerLink="/cadastro"
+            class="bg-sky-500 text-white hover:bg-sky-400 px-4 sm:px-5 py-2 rounded-xl font-bold transition-all shadow-lg shadow-sky-500/25 text-xs sm:text-sm uppercase tracking-widest">
+            Cadastrar
+          </a>
         </nav>
 
         <!-- Menu logado -->
-        <nav *ngIf="authService.isLoggedIn()" class="flex items-center space-x-4 sm:space-x-6">
-          <a routerLink="/treinos" class="text-sky-400 hover:text-sky-300 px-2 sm:px-3 py-2 rounded-md font-bold transition-colors uppercase text-[10px] sm:text-sm tracking-widest border border-sky-500/20 sm:border-none rounded-lg">Meus Treinos</a>
-          <button (click)="logout()" class="text-slate-500 hover:text-white px-2 sm:px-3 py-2 font-bold transition-colors cursor-pointer uppercase text-[10px] sm:text-sm tracking-widest">Sair</button>
+        <nav *ngIf="authService.isLoggedIn()" class="flex items-center gap-1 sm:gap-3">
+          <a routerLink="/treinos"
+            class="inline-flex items-center gap-1.5 text-sky-400 hover:text-sky-300 hover:bg-sky-500/10 px-3 py-2 rounded-xl font-bold transition-all text-xs sm:text-sm uppercase tracking-widest border border-sky-500/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <span class="hidden sm:inline">Meus Treinos</span>
+          </a>
+          <button (click)="logout()"
+            class="text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 px-3 py-2 rounded-xl font-bold transition-all cursor-pointer text-xs sm:text-sm uppercase tracking-widest">
+            <span class="hidden sm:inline">Sair</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
         </nav>
       </div>
     </div>
   </header>
 
   <!-- Conteúdo Principal -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
     <router-outlet></router-outlet>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-[#1c2333] text-slate-500 py-10 mt-auto border-t border-slate-700">
+  <footer class="bg-[#1c2333] text-slate-600 py-8 mt-auto border-t border-slate-700/60">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center mb-4">
-        <div class="bg-sky-500/10 p-1.5 rounded-lg mr-2">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <div class="bg-sky-500/10 p-1.5 rounded-lg">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
-        <span class="text-lg font-black tracking-tighter text-white uppercase italic">Gym<span class="text-sky-500">Flow</span></span>
+        <span class="text-base font-black tracking-tighter text-white uppercase italic">Gym<span class="text-sky-500">Flow</span></span>
       </div>
-      <p class="text-slate-600 text-xs uppercase tracking-widest font-bold">&copy; 2026 GymFlow. Estilo & Performance.</p>
+      <p class="text-slate-600 text-xs uppercase tracking-widest font-bold">&copy; 2026 GymFlow · Estilo &amp; Performance.</p>
     </div>
   </footer>
+
+  <!-- Modal de diálogos customizados -->
+  <app-dialog></app-dialog>
 </div>

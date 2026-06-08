@@ -1,0 +1,75 @@
+<div
+  *ngIf="dialog.isOpen()"
+  class="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-4"
+  (click)="onBackdropClick($event)">
+
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]"></div>
+
+  <!-- Modal -->
+  <div
+    class="relative w-full max-w-sm bg-[#1c2333] border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/50 p-6 animate-[slideUp_0.2s_ease-out]"
+    (click)="$event.stopPropagation()">
+
+    <!-- Ícone -->
+    <div class="flex justify-center mb-4" *ngIf="dialog.config()">
+      <!-- Warning -->
+      <div *ngIf="dialog.config()!.icon === 'warning'"
+        class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <!-- Danger -->
+      <div *ngIf="dialog.config()!.icon === 'danger'"
+        class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      </div>
+      <!-- Success -->
+      <div *ngIf="dialog.config()!.icon === 'success'"
+        class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <!-- Info -->
+      <div *ngIf="dialog.config()!.icon === 'info'"
+        class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Título e Mensagem -->
+    <div *ngIf="dialog.config()" class="text-center mb-6">
+      <h3 class="text-lg font-black text-white mb-1.5">{{ dialog.config()!.title }}</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">{{ dialog.config()!.message }}</p>
+    </div>
+
+    <!-- Botões -->
+    <div *ngIf="dialog.config()" class="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3">
+      <!-- Cancelar (só em confirm) -->
+      <button *ngIf="dialog.config()!.type === 'confirm'"
+        (click)="dialog.respond(false)"
+        class="flex-1 px-4 py-3 text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl font-semibold text-sm transition-colors">
+        {{ dialog.config()!.cancelLabel || 'Cancelar' }}
+      </button>
+
+      <!-- Confirmar / Fechar -->
+      <button
+        (click)="dialog.respond(true)"
+        class="flex-1 px-4 py-3 rounded-xl font-bold text-sm transition-all shadow-lg"
+        [ngClass]="{
+          'bg-rose-500 hover:bg-rose-400 text-white shadow-rose-500/25': dialog.config()!.icon === 'danger',
+          'bg-amber-500 hover:bg-amber-400 text-white shadow-amber-500/25': dialog.config()!.icon === 'warning',
+          'bg-emerald-500 hover:bg-emerald-400 text-white shadow-emerald-500/25': dialog.config()!.icon === 'success',
+          'bg-sky-500 hover:bg-sky-400 text-white shadow-sky-500/25': dialog.config()!.icon === 'info' || !dialog.config()!.icon
+        }">
+        {{ dialog.config()!.confirmLabel || 'OK' }}
+      </button>
+    </div>
+  </div>
+</div>

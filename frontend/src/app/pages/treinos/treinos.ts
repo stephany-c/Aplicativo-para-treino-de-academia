@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink } from '@angular/router';
 import { TreinoService } from '../../services/treino.service';
 import { AuthService } from '../../services/auth.service';
+import { DialogService } from '../../services/dialog.service';
 import { Treino } from '../../models/treino';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +25,8 @@ export class Treinos implements OnInit, OnDestroy {
     private treinoService: TreinoService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {
     this.treinoForm = this.fb.group({
       nome: ['', Validators.required],
@@ -117,7 +119,12 @@ export class Treinos implements OnInit, OnDestroy {
   }
 
   excluirTreino(id: number) {
-    if (confirm('Tem certeza que deseja excluir este treino?')) {
+    this.dialogService.danger(
+      'Excluir Treino',
+      'Tem certeza? Esta ação não poderá ser desfeita.',
+      'Sim, excluir'
+    ).then(confirmado => {
+      if (!confirmado) return;
       this.treinoService.excluir(id).subscribe({
         next: () => {
           this.treinos = this.treinos.filter(t => t.id !== id);
@@ -125,6 +132,6 @@ export class Treinos implements OnInit, OnDestroy {
         },
         error: (err) => console.error('Erro ao excluir treino', err)
       });
-    }
+    });
   }
 }

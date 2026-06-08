@@ -1,66 +1,133 @@
 <div>
+
+  <!-- Page Header -->
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-    <h1 class="text-3xl font-bold text-white">Meus Treinos</h1>
-    <button (click)="toggleForm()" class="bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-sky-600 transition-colors shadow-lg shadow-sky-500/20 font-semibold">
-      {{ mostrandoForm ? 'Cancelar' : '+ Novo Treino' }}
+    <div>
+      <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Meus Treinos</h1>
+      <p class="text-slate-400 text-sm mt-1">Gerencie seus planos de treinamento</p>
+    </div>
+    <button
+      (click)="toggleForm()"
+      class="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold uppercase tracking-wider text-sm transition-all shadow-lg"
+      [ngClass]="mostrandoForm
+        ? 'bg-slate-700 text-slate-300 hover:bg-slate-600 shadow-none'
+        : 'bg-sky-500 text-white hover:bg-sky-400 shadow-sky-500/30'">
+      <svg *ngIf="!mostrandoForm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      <svg *ngIf="mostrandoForm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+      {{ mostrandoForm ? 'Cancelar' : 'Novo Treino' }}
     </button>
   </div>
 
   <!-- Formulário de Criação -->
-  <div *ngIf="mostrandoForm" class="bg-[#1c2333] p-6 rounded-xl shadow-xl mb-8 border border-slate-700">
-    <h2 class="text-xl font-semibold mb-4 text-sky-400">
-      {{ treinoEditando ? 'Editar Treino' : 'Criar Novo Treino' }}
-    </h2>
-    <form [formGroup]="treinoForm" (ngSubmit)="salvarTreino()" class="space-y-4">
+  <div *ngIf="mostrandoForm"
+    class="bg-[#1c2333] border border-slate-700 rounded-2xl shadow-2xl p-6 sm:p-8 mb-8 animate-[fadeIn_0.2s_ease-out]">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="bg-sky-500/10 p-2 rounded-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-400" viewBox="0 0 20 20" fill="currentColor">
+          <path *ngIf="!treinoEditando" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          <path *ngIf="treinoEditando" d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+      </div>
+      <h2 class="text-lg font-bold text-white">
+        {{ treinoEditando ? 'Editar Treino' : 'Criar Novo Treino' }}
+      </h2>
+    </div>
+
+    <form [formGroup]="treinoForm" (ngSubmit)="salvarTreino()" class="space-y-5">
       <div>
-        <label class="block text-sm font-medium text-slate-400">Nome do Treino</label>
-        <input type="text" formControlName="nome" class="mt-1 block w-full rounded-md bg-[#07090e] border-slate-700 text-white shadow-sm focus:border-sky-500 focus:ring-sky-500 p-2 border" placeholder="Ex: Treino A - Peito e Tríceps">
+        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nome do Treino</label>
+        <input
+          type="text"
+          formControlName="nome"
+          class="block w-full rounded-xl bg-[#07090e] border border-slate-700 text-white focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 p-3 transition-all outline-none"
+          placeholder="Ex: Treino A — Peito e Tríceps">
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-400">Descrição</label>
-        <textarea formControlName="descricao" rows="3" class="mt-1 block w-full rounded-md bg-[#07090e] border-slate-700 text-white shadow-sm focus:border-sky-500 focus:ring-sky-500 p-2 border" placeholder="Detalhes do treino..."></textarea>
+        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Descrição</label>
+        <textarea
+          formControlName="descricao"
+          rows="3"
+          class="block w-full rounded-xl bg-[#07090e] border border-slate-700 text-white focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 p-3 transition-all outline-none resize-none"
+          placeholder="Detalhes do treino..."></textarea>
       </div>
-      <div class="flex justify-end space-x-3 pt-2">
-        <button type="button" (click)="toggleForm()" class="px-4 py-2 text-slate-400 bg-slate-800 rounded-md hover:bg-slate-700 transition-colors">Cancelar</button>
-        <button type="submit" [disabled]="treinoForm.invalid" class="px-4 py-2 text-white bg-sky-500 rounded-md hover:bg-sky-600 disabled:bg-slate-700 disabled:text-slate-500 transition-colors shadow-lg shadow-sky-500/20">
-          {{ treinoEditando ? 'Atualizar' : 'Salvar' }}
+      <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
+        <button type="button" (click)="toggleForm()"
+          class="w-full sm:w-auto px-6 py-3 text-slate-300 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors font-semibold">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="treinoForm.invalid"
+          class="w-full sm:w-auto px-6 py-3 text-white bg-sky-500 rounded-xl hover:bg-sky-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-500/20 font-bold uppercase tracking-wider text-sm">
+          {{ treinoEditando ? 'Salvar Alterações' : 'Criar Treino' }}
         </button>
       </div>
     </form>
   </div>
 
-  <!-- Lista de Treinos -->
-  <div *ngIf="treinos.length === 0 && !mostrandoForm" class="text-center py-12 bg-[#1c2333] rounded-xl shadow-sm border border-slate-700">
-    <svg class="mx-auto h-12 w-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-    </svg>
-    <h3 class="mt-2 text-sm font-medium text-white">Nenhum treino</h3>
-    <p class="mt-1 text-sm text-slate-400">Comece criando um novo treino.</p>
+  <!-- Estado vazio -->
+  <div *ngIf="treinos.length === 0 && !mostrandoForm"
+    class="bg-[#1c2333] border border-slate-700 border-dashed rounded-2xl p-12 sm:p-20 text-center">
+    <div class="bg-sky-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <svg class="h-8 w-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-white mb-1">Nenhum treino criado</h3>
+    <p class="text-slate-500 text-sm mb-6">Comece criando seu primeiro plano de treino.</p>
+    <button (click)="toggleForm()"
+      class="inline-flex items-center gap-2 bg-sky-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-sky-400 transition-all shadow-lg shadow-sky-500/20 text-sm uppercase tracking-wider">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      Criar Primeiro Treino
+    </button>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let treino of treinos" class="bg-[#1c2333] rounded-xl shadow-sm overflow-hidden hover:shadow-sky-500/10 hover:shadow-2xl transition-all border border-slate-700 flex flex-col">
-      <div class="p-6 flex-grow">
-        <h3 class="text-xl font-bold text-white mb-2">{{ treino.nome }}</h3>
-        <p class="text-slate-400 text-sm mb-4 line-clamp-3">{{ treino.descricao }}</p>
+  <!-- Grid de Treinos -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <div *ngFor="let treino of treinos; let i = index"
+      class="group bg-[#1c2333] rounded-2xl border border-slate-700 hover:border-sky-500/40 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-sky-500/10 hover:-translate-y-0.5 flex flex-col">
+
+      <!-- Card top accent bar -->
+      <div class="h-1 bg-gradient-to-r from-sky-500 to-cyan-400"></div>
+
+      <div class="p-5 sm:p-6 flex-grow">
+        <!-- Index badge + title -->
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="bg-sky-500/10 text-sky-400 text-xs font-black w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 border border-sky-500/20">
+              {{ i + 1 }}
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-white leading-tight truncate">{{ treino.nome }}</h3>
+          </div>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed line-clamp-2">{{ treino.descricao }}</p>
       </div>
-      <div class="bg-[#242c3d] px-6 py-4 flex justify-between items-center border-t border-slate-700">
-        <a [routerLink]="['/treinos', treino.id]" class="text-sky-400 hover:text-sky-300 font-medium text-sm flex items-center">
-          Ver Exercícios 
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+
+      <!-- Card Footer -->
+      <div class="bg-[#242c3d] px-5 sm:px-6 py-3 flex justify-between items-center border-t border-slate-700">
+        <a [routerLink]="['/treinos', treino.id]"
+          class="inline-flex items-center gap-1.5 text-sky-400 hover:text-sky-300 font-bold text-xs uppercase tracking-wider transition-colors">
+          Ver Exercícios
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
           </svg>
         </a>
-        <div class="flex items-center space-x-2">
-          <!-- Botão Editar -->
-          <button (click)="iniciarEdicao(treino)" class="text-sky-400 hover:text-sky-300 bg-sky-500/10 p-2 rounded-full transition-colors hover:bg-sky-500/20" title="Editar Treino">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="flex items-center gap-1">
+          <button (click)="iniciarEdicao(treino)"
+            class="text-slate-500 hover:text-sky-400 p-2 rounded-xl hover:bg-sky-500/10 transition-all"
+            title="Editar Treino">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
           </button>
-          <!-- Botão Excluir -->
-          <button (click)="excluirTreino(treino.id!)" class="text-rose-500 hover:text-rose-400 bg-rose-500/10 p-2 rounded-full transition-colors hover:bg-rose-500/20" title="Excluir Treino">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button (click)="excluirTreino(treino.id!)"
+            class="text-slate-500 hover:text-rose-400 p-2 rounded-xl hover:bg-rose-500/10 transition-all"
+            title="Excluir Treino">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </button>

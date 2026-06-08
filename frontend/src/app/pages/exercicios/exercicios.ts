@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ExercicioService } from '../../services/exercicio.service';
 import { TreinoService } from '../../services/treino.service';
+import { DialogService } from '../../services/dialog.service';
 import { Treino } from '../../models/treino';
 import { Exercicio } from '../../models/exercicio';
 
@@ -33,7 +34,8 @@ export class Exercicios implements OnInit, OnDestroy {
     private exercicioService: ExercicioService,
     private treinoService: TreinoService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {
     this.exercicioForm = this.fb.group({
       nome: ['', Validators.required],
@@ -136,14 +138,19 @@ export class Exercicios implements OnInit, OnDestroy {
   }
 
   excluirExercicio(id: number) {
-    if (confirm('Deseja excluir este exercício?')) {
+    this.dialogService.danger(
+      'Excluir Exercício',
+      'Deseja remover este exercício do treino?',
+      'Sim, remover'
+    ).then(confirmado => {
+      if (!confirmado) return;
       this.exercicioService.excluir(id).subscribe({
         next: () => {
           this.exercicios = this.exercicios.filter(e => e.id !== id);
           this.cdr.detectChanges();
         }
       });
-    }
+    });
   }
 
   mover(index: number, direcao: 'cima' | 'baixo') {
@@ -177,10 +184,13 @@ export class Exercicios implements OnInit, OnDestroy {
   finalizarTreino() {
     this.pararTimer();
     const tempoFormatado = this.getTempoFormatado();
-    alert(`Parabéns! Treino concluído em ${tempoFormatado}.`);
     this.treinoAtivo = false;
     this.exerciciosConcluidos.clear();
     this.cdr.detectChanges();
+    this.dialogService.success(
+      'Treino Concluído! 💪',
+      `Parabéns! Você finalizou o treino em ${tempoFormatado}. Continue assim!`
+    );
   }
 
   alternarConclusao(id: number) {
