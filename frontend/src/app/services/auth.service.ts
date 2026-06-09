@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../models/auth-response';
 
+import { API_CONFIG } from '../config/api.config';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/auth';
+  private apiUrl = `${API_CONFIG.baseUrl}/auth`;
   
   // Sinal para o estado de login (UI)
   isLoggedIn = signal<boolean>(this.hasToken());

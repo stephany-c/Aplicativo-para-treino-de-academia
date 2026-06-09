@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Exercicio } from '../models/exercicio';
 
+import { API_CONFIG } from '../config/api.config';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ExercicioService {
-  private apiUrl = 'http://localhost:8080/exercicios';
+  private apiUrl = `${API_CONFIG.baseUrl}/exercicios`;
 
   constructor(private http: HttpClient) { }
 
