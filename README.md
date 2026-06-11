@@ -1,4 +1,4 @@
-# Academia - Sistema de Gestão de Treinos Personalizados 🏋️‍♂️💪
+# Academia - Sistema de Gestão de Treinos Personalizados 
 
 O **Academia** é um sistema Full Stack moderno e robusto projetado para o gerenciamento de treinos de musculação e exercícios físicos. Desenvolvido com **Java (Spring Boot)** no backend e **Angular** integrado com **Tailwind CSS v4** no frontend, a aplicação oferece uma interface elegante, de alta performance e totalmente responsiva, ideal para acompanhar treinos no celular ou desktop de forma dinâmica e segura.
 
@@ -45,7 +45,7 @@ Este projeto está dividido em duas partes principais: um frontend construído c
 * 🏋️‍♂️ **Gestão de Treinos (CRUD)**: Criação, listagem, edição e exclusão de treinos vinculados ao usuário autenticado.
 * 📋 **Gestão de Exercícios (CRUD)**: Cadastro completo de exercícios com séries, repetições e carga, associados de forma dinâmica aos treinos.
 * 👥 **Isolamento de Dados**: Cada usuário possui acesso exclusivo aos seus próprios treinos cadastrados.
-* 🎨 **UI/UX Premium**: Layout responsivo com design moderno e limpo utilizando Tailwind CSS v4, otimizado para dispositivos móveis e computadores.
+* 🎨 **UI/UX Premium**: Layout responsivo com designlimpo utilizando Tailwind CSS v4.
 * ⚡ **Swagger/OpenAPI**: Documentação interativa para teste direto dos endpoints da API.
 
 ---
