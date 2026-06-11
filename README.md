@@ -126,4 +126,4 @@ A API possui documentação dinâmica e interativa gerada pelo Springdoc OpenAPI
 
 ---
 
-Desenvolvido com 💙 por [Stephany](https://github.com/stephany-c)
+Desenvolvido por [Stephany](https://github.com/stephany-c)
