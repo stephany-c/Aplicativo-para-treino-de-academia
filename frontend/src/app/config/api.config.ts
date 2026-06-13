@@ -3,5 +3,5 @@ const isLocalhost = window.location.hostname === 'localhost' || window.location.
 export const API_CONFIG = {
   baseUrl: isLocalhost 
     ? 'http://localhost:8080' 
-    : 'https://aplicativo-para-treino-de-academia.onrender.com' // TODO: Substitua por sua URL gerada pelo Render se for diferente
+    : 'https://aplicativo-para-treino-de-academia.onrender.com' 
 };
